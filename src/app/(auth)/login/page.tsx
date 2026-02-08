@@ -1,0 +1,22 @@
+import { LoginForm } from "@/modules/(auth)/login/components/login-form"
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Login to Your Account",
+  description:
+    "Log in to Agencioo to securely access your agency dashboard, manage projects, and track goals with role-based access control.",
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
+
+export default function LoginPage() {
+  return (
+    <div className="bg-background flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
+      <div className="w-full max-w-sm">
+        <LoginForm />
+      </div>
+    </div>
+  )
+}
