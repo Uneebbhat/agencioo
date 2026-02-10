@@ -1,17 +1,15 @@
-"use client"
-
 import { InviteForm } from "@/modules/create-agency/components/invite-form";
-// import type { Metadata } from "next";
+import type { Metadata } from "next";
 
-// export const metadata: Metadata = {
-//   title: "Create Your Agency",
-//   description:
-//     "Set up your agency on Agencioo to manage teams, projects, and clients efficiently with secure, role-based access and scalable workflows.",
-//   robots: {
-//     index: true,
-//     follow: true,
-//   },
-// };
+export const metadata: Metadata = {
+  title: "Create Your Agency",
+  description:
+    "Set up your agency on Agencioo to manage teams, projects, and clients efficiently with secure, role-based access and scalable workflows.",
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
 export default function InvitePage() {
   return (
@@ -20,5 +18,5 @@ export default function InvitePage() {
         <InviteForm />
       </div>
     </div>
-  )
+  );
 }
