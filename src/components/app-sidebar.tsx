@@ -61,7 +61,7 @@ const data = {
     },
     {
       name: "My Tasks",
-      url: "/my-tasks",
+      url: "/tasks",
       icon: Clipboard,
     },
     {
