@@ -40,7 +40,7 @@ export default function Project() {
   return (
     <>
       {mockProjects.map((project) => (
-        <Link href={`/project/${project.id}`} key={project.id}>
+        <Link href={`/projects/board/${project.id}`} key={project.id}>
           <Card>
             <CardContent className="flex items-center justify-between">
               <div className="flex flex-col gap-2">
