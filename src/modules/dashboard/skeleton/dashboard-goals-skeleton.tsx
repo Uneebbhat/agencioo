@@ -1,0 +1,26 @@
+import React from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+
+export default function DashboardGoalsSkeleton() {
+  return (
+    <Card>
+      <CardHeader className="pb-3">
+        <CardTitle>
+          <Skeleton className="h-5 w-32" />
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        {Array.from({ length: 3 }).map((_, idx) => (
+          <div key={idx} className="rounded-lg border p-3 space-y-2">
+            <Skeleton className="h-4 w-40" />
+            <Skeleton className="h-3 w-24" />
+            <Skeleton className="h-2 w-full" />
+          </div>
+        ))}
+      </CardContent>
+    </Card>
+  );
+}
+
+
