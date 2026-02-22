@@ -1,4 +1,6 @@
-import { Eye, GalleryVerticalEnd } from "lucide-react"
+"use client"
+
+import { Eye, EyeOff, GalleryVerticalEnd } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -10,14 +12,29 @@ import {
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import Link from "next/link"
+import { ModeToggle } from "@/components/mode-toggle"
+import useSignup from "../hooks/useSignup"
+import { Spinner } from "@/components/ui/spinner"
+import useTogglePassword from "@/hooks/useTogglePassword"
 
 export function SignupForm({
   className,
   ...props
 }: React.ComponentProps<"div">) {
+  const {
+    loading,
+    formData,
+    handleOnSubmit,
+    handleOnChange
+  } = useSignup()
+  const { showPassword, togglePassword } = useTogglePassword()
+
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
-      <form>
+      <div className="flex items-center justify-center">
+        <ModeToggle />
+      </div>
+      <form onSubmit={handleOnSubmit}>
         <FieldGroup>
           <div className="flex flex-col items-center gap-2 text-center">
             <Link
@@ -42,6 +59,8 @@ export function SignupForm({
               name="name"
               placeholder="Name"
               required
+              onChange={handleOnChange}
+              value={formData.name}
             />
           </Field>
 
@@ -53,6 +72,8 @@ export function SignupForm({
               name="email"
               placeholder="m@example.com"
               required
+              onChange={handleOnChange}
+              value={formData.email}
             />
           </Field>
 
@@ -61,16 +82,25 @@ export function SignupForm({
             <div className="relative">
               <Input
                 id="password"
-                type="password"
+                type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="password"
                 required
+                onChange={handleOnChange}
+                value={formData.password}
               />
-              <Eye className="w-5 h-5 absolute top-2 right-2 cursor-pointer" />
+              {showPassword ? <EyeOff className="w-5 h-5 absolute top-2 right-2 cursor-pointer" onClick={togglePassword} /> : <Eye className="w-5 h-5 absolute top-2 right-2 cursor-pointer" onClick={togglePassword} />}
             </div>
           </Field>
           <Field>
-            <Button>Create Account</Button>
+            <Button disabled={loading || !formData.name || !formData.email || !formData.password}>
+              {
+                loading ? <>
+                  <Spinner />
+                  Create Account
+                </> : "Create Account"
+              }
+            </Button>
           </Field>
           {/* <FieldSeparator>Or</FieldSeparator> */}
           {/* <Field className="grid gap-4 sm:grid-cols-2">
@@ -96,8 +126,8 @@ export function SignupForm({
         </FieldGroup>
       </form>
       <FieldDescription className="px-6 text-center">
-        By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
-        and <a href="#">Privacy Policy</a>.
+        By clicking continue, you agree to our <Link href="#">Terms of Service</Link>{" "}
+        and <Link href="#">Privacy Policy</Link>.
       </FieldDescription>
     </div>
   )
