@@ -1,3 +1,5 @@
+"use client"
+
 import { Image as ImageIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import {
@@ -15,15 +17,24 @@ import {
   CardFooter,
 } from "@/components/ui/card"
 import { Textarea } from "@/components/ui/textarea"
+import useCreateAgency from "../hooks/useCreateAgency"
+import { Spinner } from "@/components/ui/spinner"
 
 export function CreateAgencyForm() {
+  const {
+    formData,
+    handleOnSubmit,
+    handleOnChange,
+    loading,
+  } = useCreateAgency()
+
   return (
     <>
       <CardHeader className="flex flex-col items-center gap-2 text-center">
         <CardTitle className="text-3xl">Create Your Agency</CardTitle>
         <CardDescription>Fill in the details below to create your agency profile.</CardDescription>
       </CardHeader>
-      <form>
+      <form onSubmit={handleOnSubmit}>
         <CardContent>
           <FieldGroup>
             <div className="grid grid-cols-1 gap-5">
@@ -36,6 +47,8 @@ export function CreateAgencyForm() {
                   placeholder="Your agency name"
                   required
                   autoFocus
+                  onChange={handleOnChange}
+                  value={formData.agencyName}
                 />
               </Field>
 
@@ -47,6 +60,8 @@ export function CreateAgencyForm() {
                   name="agencyEmail"
                   placeholder="agency@example.com"
                   required
+                  onChange={handleOnChange}
+                  value={formData.agencyEmail}
                 />
               </Field>
 
@@ -57,6 +72,8 @@ export function CreateAgencyForm() {
                   type="url"
                   name="agencyWebsite"
                   placeholder="https://youragency.com"
+                  onChange={handleOnChange}
+                  value={formData.agencyWebsite}
                 />
               </Field>
 
@@ -67,6 +84,8 @@ export function CreateAgencyForm() {
                   type="tel"
                   name="agencyPhone"
                   placeholder="+1 555-555-5555"
+                  onChange={handleOnChange}
+                  value={formData.agencyPhone}
                 />
               </Field>
 
@@ -78,29 +97,35 @@ export function CreateAgencyForm() {
                   name="agencyAddress"
                   placeholder="123 Main St, Suite 100"
                   required
+                  onChange={handleOnChange}
+                  value={formData.agencyAddress}
                 />
               </Field>
 
               {/* Responsive 2-column row for City and Zipcode */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Field>
-                  <FieldLabel htmlFor="city">City</FieldLabel>
+                  <FieldLabel htmlFor="agencyCity">City</FieldLabel>
                   <Input
-                    id="city"
+                    id="agencyCity"
                     type="text"
-                    name="city"
+                    name="agencyCity"
                     placeholder="City"
                     required
+                    onChange={handleOnChange}
+                    value={formData.agencyCity}
                   />
                 </Field>
                 <Field>
-                  <FieldLabel htmlFor="zipcode">Zipcode</FieldLabel>
+                  <FieldLabel htmlFor="agencyZipcode">Zipcode</FieldLabel>
                   <Input
-                    id="zipcode"
+                    id="agencyZipcode"
                     type="text"
-                    name="zipcode"
+                    name="agencyZipcode"
                     placeholder="Zip or Postal Code"
                     required
+                    onChange={handleOnChange}
+                    value={formData.agencyZipcode}
                   />
                 </Field>
               </div>
@@ -114,10 +139,13 @@ export function CreateAgencyForm() {
                     type="file"
                     accept="image/*"
                     className="hidden"
+                    onChange={handleOnChange}
+                    value={formData.agencyImage}
                   />
                   <Button
                     type="button"
                     variant="outline"
+                    className="w-full"
                   >
                     <ImageIcon className="w-5 h-5 mr-2" />
                     <span>Upload Image</span>
@@ -134,6 +162,8 @@ export function CreateAgencyForm() {
                   placeholder="Tell us a little about your agency…"
                   className="min-h-[80px]"
                   maxLength={500}
+                  onChange={handleOnChange}
+                  value={formData.agencyDescription}
                 ></Textarea>
                 <FieldDescription>
                   Briefly describe your agency (<span className="font-mono text-xs">max 500 chars</span>).
@@ -143,8 +173,13 @@ export function CreateAgencyForm() {
           </FieldGroup>
         </CardContent>
         <CardFooter className="mt-4">
-          <Button className="w-full">
-            Create Agency
+          <Button className="w-full" disabled={loading || !formData.agencyAddress || !formData.agencyCity || !formData.agencyEmail || !formData.agencyName || !formData.agencyZipcode}>
+            {
+              loading ? <>
+                <Spinner />
+                Create Agency
+              </> : "Create Agency"
+            }
           </Button>
         </CardFooter>
       </form>

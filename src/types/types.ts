@@ -5,6 +5,7 @@ export interface Payload {
 }
 
 export interface APIResponse<T = unknown> {
+  error: string;
   success: boolean;
   message: string;
   data: T;
