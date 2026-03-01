@@ -6,6 +6,7 @@ import { APIResponse, ISignupFormData } from "../../types";
 import { HandleOnSubmit } from "@/types/FormTypes";
 import useFormHandler from "@/hooks/useFormhandler";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const signup = async (formData: ISignupFormData): Promise<APIResponse> => {
   try {
@@ -25,6 +26,15 @@ const signup = async (formData: ISignupFormData): Promise<APIResponse> => {
 };
 
 const useSignup = () => {
+  const router = useRouter()
+
+  const { formData, setFormData, handleOnChange } =
+    useFormHandler<ISignupFormData>({
+      name: "",
+      email: "",
+      password: "",
+    });
+
   const { mutate, isPending: loading } = useMutation<
     APIResponse,
     APIResponse,
@@ -38,18 +48,12 @@ const useSignup = () => {
         email: "",
         password: "",
       });
+      router.push("/create-agency")
     },
     onError: (error) => {
       toast.error(error.error || "Something went wrong");
     },
   });
-
-  const { formData, setFormData, handleOnChange } =
-    useFormHandler<ISignupFormData>({
-      name: "",
-      email: "",
-      password: "",
-    });
 
   const handleOnSubmit = (e: HandleOnSubmit) => {
     e.preventDefault();
